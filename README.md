@@ -2,6 +2,7 @@
 
 顾名思义：一个稳健的DSH更新器。
 解决DSH更新带来的以下问题：掉模型、掉订阅套餐、掉插件、掉补丁、掉DSH（报错起不来）
+
 安装方式：
 ```powershell
 git clone https://github.com/luxueliu/dsh-luxueliu-update.git
