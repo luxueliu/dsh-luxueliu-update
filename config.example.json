@@ -1,0 +1,30 @@
+{
+  "_readme": [
+    "把本文件复制为 dsh-updater.config.json 再改。",
+    "home：DSH 用户数据根目录（放着 profiles\\、.credentials.yaml 的那一层）。留空则由脚本自动推断为「安装目录的上一层」。",
+    "protectedFiles：更新前后逐个核对的文件，缺一个就从备份还原。相对 home。",
+    "hooks：更新包装完之后、DSH 重新启动之前执行 —— 此时没有任何进程占着 app.asar，是打本地补丁的唯一窗口。",
+    "hooks 字段：name / enabled / runner / file / args；args 里 {home} {desk} {version} 会被替换。",
+    "钩子失败只进问题清单，不影响本次更新本身的成败判定。"
+  ],
+  "home": "",
+  "protectedFiles": [
+    ".credentials.yaml",
+    ".openai-codex-auth.json",
+    ".workbuddy-auth.json",
+    ".workbuddy-accounts.json",
+    "profiles\\desktop\\cordis.yml",
+    "profiles\\desktop\\cordis.patch.yml",
+    "profiles\\desktop\\package.json",
+    "profiles\\desktop\\compatibility.json"
+  ],
+  "hooks": [
+    {
+      "name": "示例：更新后重打本地补丁（改成你自己的脚本路径，并把 enabled 设为 true）",
+      "enabled": false,
+      "runner": "C:\\path\\to\\your\\runtime\\node.exe",
+      "file": "C:\\path\\to\\your\\patch-script.mjs",
+      "args": ["--ensure"]
+    }
+  ]
+}
