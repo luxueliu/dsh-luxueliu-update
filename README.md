@@ -45,7 +45,7 @@ MIT Licensed · 单个 PowerShell 脚本 · 不联网访问你的任何数据 ·
 ## 安装
 
 ```powershell
-git clone https://github.com/xiedongqingxiao-ops/dsh-updater.git
+git clone https://github.com/luxueliu/dsh-updater.git
 cd dsh-updater
 Copy-Item config.example.json dsh-updater.config.json
 powershell -NoProfile -ExecutionPolicy Bypass -File .\install-button.ps1
