@@ -281,7 +281,8 @@ function Start-DshDesktop {
     # 3) UseShellExecute=true 也躲不开第 2 条，必须显式 CreateNoWindow（CREATE_NO_WINDOW）。
     # 结论：UseShellExecute=false + CreateNoWindow=true，既不建控制台也不继承控制台。GUI 窗口照常显示。
     $psi = New-Object System.Diagnostics.ProcessStartInfo
-    $psi.FileName = $exe
+    $psi.FileName = $env:ComSpec
+    $psi.Arguments = '/c start " /d \\"' + $exeDir + '\\" \\"' + $exe + '\\"'
     $psi.WorkingDirectory = $exeDir
     $psi.UseShellExecute = $false
     $psi.CreateNoWindow = $true
