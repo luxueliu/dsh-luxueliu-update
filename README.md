@@ -1,20 +1,24 @@
 # dsh-luxueliu-update
 
-> 让 DeepSeek Harness（DSH）更新这件事，终于像别的软件一样无聊。
-> A no-drama updater for DeepSeek Harness on Windows: official installer, nothing lost, hooks after update.
-
-MIT Licensed · 单个 PowerShell 脚本 · 不联网访问你的任何数据 · 不含任何个人信息
-
+顾名思义：一个稳健的DSH更新器。
+解决DSH更新带来的以下问题：掉模型、掉订阅套餐、掉插件、掉补丁、掉DSH（报错起不来）
+安装方式：
+```powershell
+git clone https://github.com/luxueliu/dsh-luxueliu-update.git
+cd dsh-luxueliu-update
+Copy-Item config.example.json dsh-luxueliu-update.config.json
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install-button.ps1
+```
 ---
 
-## 它解决什么
+## 开发原因
 
 官方每次更新会**整包替换 `resources\app.asar`**，于是本地补丁、自定义 `providers`、插件版本豁免全部被抹掉。
-而大多数自己写的更新脚本，验收办法是"读配置文件、数 YAML 行"——**它检查的是文本，不是生效状态**，所以掉再多东西也能报绿。
+而大多数自己写的更新脚本，验收办法是"读配置文件、数 YAML 行"——**它检查的是文本，不是生效状态**，所以掉再多东西也不报错。
 
 `dsh-luxueliu-update` 的做法很笨也很稳：
 
-1. **只用官方安装包升级。** 不手撸 7z 解包、不做 asar 二进制手术、不猜安装器格式。官方 NSIS 包静默装回原目录，文件注册、卸载项、快捷方式都由官方自己处理。
+1. **只用官方安装包升级。** 官方 NSIS 包静默装回原目录，文件注册、卸载项、快捷方式都由官方自己处理。
 2. **模型配置一个字不碰。** 更新不读也不写 `profiles\*\cordis.patch.yml`。没有"重建"，就不会"重建错"。这一条比任何修复脚本都管用。
 3. **数据保全用清单核对 + 备份链还原。** 更新前逐个记录受保护文件，更新后发现少了就从备份还原；DSH 起来后再核一遍（桌面启动自己也会改配置）。
 4. **可重复的后处理交给钩子。** 钩子在"更新完、DSH 还没重新打开"时执行——此刻没有任何进程占着 `app.asar`，正是打本地补丁的唯一窗口。
@@ -100,8 +104,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-luxueliu-update.ps1 -H
    → 清单式总结
 ```
 
-**验收标准是本地 API 真的答话**，不是"进程存在"。进程在但服务没起来，算失败。
-
 ## 已知限制（说在前面）
 
 - **跨版本升级这条分支的实测量有限。** 作者在 `0.2.1-rc.3` 上完整跑过安装循环（关台 → 官方包退出码 0 → 装完 → 版本校验 → 自动重开，数据 8/8 在位），但当时官方最新版本就是已装版本，所以"版本从 A 跳到 B"要等下一次 nightly 才有真跑机会。目前 `-Force` 走的是同版本重装。
@@ -110,8 +112,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-luxueliu-update.ps1 -H
 - 安装器必须是 NSIS 制作的；若官方换成其它安装技术，`/S` 参数语义会失效，脚本会在"版本没变成目标值"这一步报出来。
 
 ## 三个 Windows 上的坑（踩过的，别再踩）
-
-见 [`docs/Windows上的三个坑.md`](docs/Windows上的三个坑.md)。摘要：
 
 1. **别用 `Start-Process`。** 环境里存在大小写重复的变量（`HTTPS_PROXY` / `https_proxy`）时，PowerShell 5.1 的 `Start-Process` 直接抛异常，命令根本发不出去。本机就遇到了，全程改用 `ProcessStartInfo`。
 2. **子进程不能继承你的控制台。** 控制台一关，Windows 给所有附加进程发 `CTRL_CLOSE`，刚起来的 DSH 跟着没。`UseShellExecute` 挡不住，必须 `CreateNoWindow`。
@@ -131,4 +131,4 @@ docs/                      为什么掉东西 / 三个坑
 
 ## License
 
-MIT。作者信息匿名处理，欢迎随意 fork。
+MIT。作者信息匿名处理，欢迎随意 fork。插件不联网、不需要个人信息，安全无毒放心使用。
