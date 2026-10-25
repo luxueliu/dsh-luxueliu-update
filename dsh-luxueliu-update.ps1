@@ -1,6 +1,6 @@
 ﻿# ============================================================
-#  dsh-updater —— DeepSeek Harness 的稳健更新器（Windows PowerShell）
-#  仓库：https://github.com/<your-name>/dsh-updater
+#  dsh-luxueliu-update —— DeepSeek Harness 的稳健更新器（Windows PowerShell）
+#  仓库：https://github.com/luxueliu/dsh-luxueliu-update
 #
 #  为什么要这个：官方每次更新会整包替换 desk\resources\app.asar，
 #  本地补丁、自定义 providers、插件豁免都会被抹掉；而更新脚本往往
@@ -34,8 +34,8 @@ $script:Issues = New-Object System.Collections.ArrayList
 
 # ---------- 常量 ----------
 $ControlDir   = $PSScriptRoot
-$LogFile      = Join-Path $ControlDir 'dsh-updater.log'
-$ConfigFile   = Join-Path $ControlDir 'dsh-updater.config.json'
+$LogFile      = Join-Path $ControlDir 'dsh-luxueliu-update.log'
+$ConfigFile   = Join-Path $ControlDir 'dsh-luxueliu-update.config.json'
 $DownloadDir  = Join-Path $ControlDir 'downloads'
 $BackupRoot   = Join-Path $ControlDir 'backups'
 $FeedUrl      = 'https://download.deepseek.com/dsh-desk/feeds/win-x64/nightly.yml'

@@ -1,6 +1,6 @@
 {
   "_readme": [
-    "把本文件复制为 dsh-updater.config.json 再改。",
+    "把本文件复制为 dsh-luxueliu-update.config.json 再改。",
     "home：DSH 用户数据根目录（放着 profiles\\、.credentials.yaml 的那一层）。留空则由脚本自动推断为「安装目录的上一层」。",
     "protectedFiles：更新前后逐个核对的文件，缺一个就从备份还原。相对 home。",
     "hooks：更新包装完之后、DSH 重新启动之前执行 —— 此时没有任何进程占着 app.asar，是打本地补丁的唯一窗口。",

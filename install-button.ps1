@@ -24,7 +24,7 @@ $shell = New-Object -ComObject WScript.Shell
 $sc = $shell.CreateShortcut($lnk)
 $sc.TargetPath = $wrapper
 $sc.WorkingDirectory = $repo
-$sc.Description = 'dsh-updater：官方安装包 + 数据保全 + 更新后钩子'
+$sc.Description = 'dsh-luxueliu-update：官方安装包 + 数据保全 + 更新后钩子'
 $sc.IconLocation = 'shell32.dll,46'
 $sc.Save()
 

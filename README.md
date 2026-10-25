@@ -1,4 +1,4 @@
-# dsh-updater
+# dsh-luxueliu-update
 
 > 让 DeepSeek Harness（DSH）更新这件事，终于像别的软件一样无聊。
 > A no-drama updater for DeepSeek Harness on Windows: official installer, nothing lost, hooks after update.
@@ -12,7 +12,7 @@ MIT Licensed · 单个 PowerShell 脚本 · 不联网访问你的任何数据 ·
 官方每次更新会**整包替换 `resources\app.asar`**，于是本地补丁、自定义 `providers`、插件版本豁免全部被抹掉。
 而大多数自己写的更新脚本，验收办法是"读配置文件、数 YAML 行"——**它检查的是文本，不是生效状态**，所以掉再多东西也能报绿。
 
-`dsh-updater` 的做法很笨也很稳：
+`dsh-luxueliu-update` 的做法很笨也很稳：
 
 1. **只用官方安装包升级。** 不手撸 7z 解包、不做 asar 二进制手术、不猜安装器格式。官方 NSIS 包静默装回原目录，文件注册、卸载项、快捷方式都由官方自己处理。
 2. **模型配置一个字不碰。** 更新不读也不写 `profiles\*\cordis.patch.yml`。没有"重建"，就不会"重建错"。这一条比任何修复脚本都管用。
@@ -45,9 +45,9 @@ MIT Licensed · 单个 PowerShell 脚本 · 不联网访问你的任何数据 ·
 ## 安装
 
 ```powershell
-git clone https://github.com/luxueliu/dsh-updater.git
-cd dsh-updater
-Copy-Item config.example.json dsh-updater.config.json
+git clone https://github.com/luxueliu/dsh-luxueliu-update.git
+cd dsh-luxueliu-update
+Copy-Item config.example.json dsh-luxueliu-update.config.json
 powershell -NoProfile -ExecutionPolicy Bypass -File .\install-button.ps1
 ```
 
@@ -58,16 +58,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\install-button.ps1
 
 ```powershell
 # 体检：只看现状，一个字节都不改
-powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-updater.ps1 -CheckOnly
+powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-luxueliu-update.ps1 -CheckOnly
 
 # 正式更新
-powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-updater.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-luxueliu-update.ps1
 
 # 主台没起来时的补救：只把 DSH 拉起来
-powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-updater.ps1 -StartOnly
+powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-luxueliu-update.ps1 -StartOnly
 
 # 只重跑钩子（例如手动补打本地补丁）
-powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-updater.ps1 -HooksOnly
+powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-luxueliu-update.ps1 -HooksOnly
 ```
 
 | 开关 | 作用 |
@@ -81,7 +81,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-updater.ps1 -HooksOnly
 | `-Home <路径>` | 手动指定 DSH 用户数据根目录 |
 | `-WaitTimeoutSec <秒>` | 等进程退出的超时，默认 120 |
 
-退出码：`0` = 全部通过，`1` = 有问题清单，日志在 `dsh-updater.log`。
+退出码：`0` = 全部通过，`1` = 有问题清单，日志在 `dsh-luxueliu-update.log`。
 
 ## 更新流程
 
@@ -120,14 +120,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\dsh-updater.ps1 -HooksOnly
 ## 目录结构
 
 ```
-dsh-updater.ps1            主脚本（唯一需要的东西）
+dsh-luxueliu-update.ps1            主脚本（唯一需要的东西）
 config.example.json        配置示例：受保护清单 + 钩子槽位
 update-dsh.cmd             双击入口
 install-button.ps1         在桌面生成按钮
 docs/                      为什么掉东西 / 三个坑
 ```
 
-运行期产生 `downloads\`、`backups\`、`dsh-updater.log`，均在仓库内，已在 `.gitignore` 里排除。
+运行期产生 `downloads\`、`backups\`、`dsh-luxueliu-update.log`，均在仓库内，已在 `.gitignore` 里排除。
 
 ## License
 

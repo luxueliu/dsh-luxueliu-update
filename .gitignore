@@ -4,7 +4,7 @@ backups/
 *.log
 
 # 本地配置（含可能的个人路径，不进仓库）
-dsh-updater.config.json
+dsh-luxueliu-update.config.json
 
 # 系统噪声
 Thumbs.db
